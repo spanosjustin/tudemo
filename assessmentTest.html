@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Getting Started</title>
+    <!-- Link to external CSS file -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Include any additional metadata or links here -->
+</head>
+<body>
+    <!-- Header section -->
+    <header>
+        <h1>Let's Hear About Your Goals</h1>
+    </header>
+    
+    <!-- Main content section -->
+    <main>
+        <h2>What would you like to study?</h2>
+        <select name="topicSelection" id="topicChoice" onChange="assessmentSelection(this.value)">
+            <option value="topic">Topics...</option>
+            <option value="webdev">Web Dev</option>
+            <option value="algebra1">Algebra 1</option>
+        </select>
+    </main>
+
+    <section>
+        <p id="errMessageSection">
+
+        </p>
+        <div id="selfAssessmentMetaSection">
+
+            <h2 id="assessmentTitleSection"></h2>
+            <p id="instructionTextSection"></p>
+            <p id="assessmentSelfAssess"></p>
+
+            <div class="slidercontainer">
+                <input type="range" min="1" max="3" value="2" onchange="setTierDescription(this.value)" class="slider" id="selfAssessSlider" style="display: none">
+                <h3 id="assessmentSkillLevelTitle"></h3>
+                <p id="assessmentSkillLevelDescription"></p>
+                <button onclick="displayQuiz()">Next: Quiz Assessment</button>
+            </div>
+        </div>
+        <div id="assessmentQuiz">
+            <button onclick="displayQuestion('questionOne')">Question 1</button>
+            <button onclick="displayQuestion('questionTwo')">Question 2</button>
+            <button onclick="displayQuestion('questionThree')">Question 3</button>
+
+            <div id="questionOne">
+                <p>Howdy</p>
+            </div>
+            <div id="questionTwo">
+                <p>Hey</p>
+            </div>
+            <div id="questionThree">
+                <p>Hello!</p>
+            </div>
+
+            <div id="assessmentTortueAssess">
+
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer section -->
+    <footer>
+        <p>&copy; 2024 Tortoise University. All rights reserved.</p>
+    </footer>
+    
+    <!-- Link to external JavaScript file -->
+    <script src="script.js"></script>
+
+    <script>
+        let selfAssessmentLvl = 0;
+        let quizAssessmentLvl = 0;
+        let selfSubject;
+
+
+        // NOTE TO GUTURE SELF
+        /*
+
+            Bro, when you move this to its own seperate file
+            Make sure you merge the properties of subjectTopic 
+            class into assessment
+            or vice versa, idk
+
+        */
+        class assessmentQuiz {
+            constructor(subject) {
+                this.subject = subject;
+            }
+            skillLevel;
+            questions = [[],[],[]];
+            answerOption = [[[],[]],[[],[]],[[],[]]];
+            answerKey = [[],[],[]];
+        }
+
+        class subjectTopic {
+            constructor(topic) {
+                this.topic = topic;
+            }
+            tier1name;
+            tier1Descript;
+            tier2name;
+            tier2Descript;
+            tier3name;
+            tier3Descript;
+        }
+
+        const webdevAssessment = new assessmentQuiz("Web Dev");
+        const webdevSubject = new subjectTopic("Web Dev");
+
+        webdevSubject.tier1name = "Complete Beginner";
+        webdevSubject.tier1Descript = "As a beginner you will learn basic concepts, such as what coding is, you will learn some basic HTML Tags (p tag, a tag, h1 tag).";
+        webdevSubject.tier2name = "Beginner Coder";
+        webdevSubject.tier2Descript = "Understanding of basic CSS (styling with colors, fonts, margins), basic JavaScript.";
+        webdevSubject.tier3name = "Intermediate Beginner";
+        webdevSubject.tier3Descript = "DOM manipulation, ES6+ features, basic understanding of APIS and AJX";
+        
+
+        // lvl 1 questions
+        // question 1
+        webdevAssessment.questions[0][0] = "What does CSS stand for?";
+        // questionaire 1
+        webdevAssessment.answerOption[0][0][0] = "Computer Style Sheets";
+        webdevAssessment.answerOption[0][0][1] = "Cascading Simple Sheets";
+        webdevAssessment.answerOption[0][0][2] = "Creative Style Sheets";
+        webdevAssessment.answerKey[0][0] = "Cascading Style Sheets";
+        
+        // question 2
+        webdevAssessment.questions[0][1] = "Which HTML tag creates a link?";
+        // questionaire 2
+        webdevAssessment.answerOption[0][1][0] = "div";
+        webdevAssessment.answerOption[0][1][1] = "img";
+        webdevAssessment.answerOption[0][1][2] = "p";
+        webdevAssessment.answerKey[0][1] = "a";
+
+        //lvl 2 questions
+        webdevAssessment.questions[1][0] = "Which of the following is a JavaScript loop?";
+        webdevAssessment.questions[1][1] = "What is the correct syntax to declare a JavaScript variable?";
+        //lvl 3 questions
+        webdevAssessment.questions[2][0] = "What is the correct syntax to declare a JavaScript variable?";
+        webdevAssessment.questions[2][1] = "How do you select an element by its ID in JavaScript?";
+        
+
+        document.getElementById("selfAssessmentMetaSection").style.display = 'none';
+
+        function setSkillLvlValue(val) {
+            //console.log("setting Value, ...");
+            selfAssessmentLvl = val;
+            //console.log(selfAssessmentLvl);
+        }
+
+        function setTierDescription(val) {
+            setSkillLvlValue(val);
+            if(selfAssessmentLvl == 1) {
+                document.getElementById("assessmentSkillLevelTitle").innerHTML = webdevSubject.tier1name;
+                document.getElementById("assessmentSkillLevelDescription").innerHTML = webdevSubject.tier1Descript;
+            } else if (selfAssessmentLvl == 2) {
+                document.getElementById("assessmentSkillLevelTitle").innerHTML = webdevSubject.tier2name;
+                document.getElementById("assessmentSkillLevelDescription").innerHTML = webdevSubject.tier2Descript;
+            } else if (selfAssessmentLvl == 3) {
+                document.getElementById("assessmentSkillLevelTitle").innerHTML = webdevSubject.tier3name;
+                document.getElementById("assessmentSkillLevelDescription").innerHTML = webdevSubject.tier3Descript;
+            }
+        }
+
+        function assessmentSelection(subjTopic) {
+            //document.getElementById("assessmentSection").innerHTML = "Function Called";
+            selfSubject = subjTopic;
+            let testText = "Assessment for: " + subjTopic;
+            let skillSubject;
+            let errMessage = "So sorry, but this subject is currently unavailable."
+            let skillLevel = 0;
+            document.getElementById("assessmentQuiz").style.display = 'none';
+
+            // I think a case would go better here
+            if (subjTopic == "topic") {
+                //document.getElementById("assessmentSelfAssess").innerHTML = "";
+                document.getElementById("selfAssessmentMetaSection").style.display = 'none';
+                document.getElementById("errMessageSection").style.display = 'none';
+                document.getElementById("assessmentQuiz").style.display = 'none';
+            } else if (subjTopic == "webdev") {
+                //document.getElementById("assessmentSection").innerHTML = testText;
+                skillSubject = webdevAssessment.subject;
+                selfAssessment(skillSubject);
+            } else if(subjTopic == "algebra1") {
+                subjectNotAvailable(errMessage)
+            }
+        }
+
+        function subjectNotAvailable(errMsg) {
+            document.getElementById("selfAssessmentMetaSection").style.display = 'none';
+            document.getElementById("errMessageSection").style.display = 'block';
+            document.getElementById("errMessageSection").innerHTML = errMsg;
+        }
+
+        function selfAssessment(subjTopic) {
+            let titleText = "Self Assessment:"
+            let instructionText = `On a scale from 1 to 3, how would you personally rate your ${subjTopic} skills?`;
+            // visibilty altering
+            document.getElementById("errMessageSection").style.display = 'none';
+            document.getElementById("selfAssessmentMetaSection").style.display = 'block';
+            document.getElementById("selfAssessSlider").style.display = 'block';
+
+            document.getElementById("assessmentTitleSection").innerHTML = titleText;
+            document.getElementById("instructionTextSection").innerHTML = instructionText;
+            // temporary display for testing
+            //document.getElementById("instructionTextSection").innerHTML = selfAssessmentLvl;
+            //console.log(selfAssessmentLvl);
+
+            // select skill level here 
+        }
+
+        function displayQuestion(questionNum) {
+            let questionNumberArray = ["questionOne", "questionTwo", "questionThree"];
+
+            for (let i = 0; i < questionNumberArray.length; i++) {
+                document.getElementById(questionNumberArray[i]).style.display = 'none';
+            }
+
+            document.getElementById(questionNum).style.display = 'block';
+            console.log("displayQuestion Button Pressed");
+        }
+
+        function displayQuiz() {
+            let arSelfAsmntLVL = selfAssessmentLvl - 1;
+            console.log("In displayQuiz");
+            document.getElementById("questionOne").style.display = 'block';
+            document.getElementById("assessmentTortueAssess").innerHTML = webdevAssessment.questions[arSelfAsmntLVL][0];
+        }
+
+        // a case as well for selecting from the arrays of questions? Look into it
+        function assessmentTest() {
+            let arSelfAsmntLVL = selfAssessmentLvl - 1;
+            console.log("In assessment test", selfAssessmentLvl, selfSubject);
+            // Take skill level and access the webdev list with the skill list for tha skill level
+            // Write a function for the test as well, and that curates the questions to how well you're doing
+            //console.log(webdevAssessment.questions[arSelfAsmntLVL][0]);
+            //console.log(webdevAssessment.answerKey[arSelfAsmntLVL][0]);
+
+            //console.log(webdevAssessment.questions[arSelfAsmntLVL][1]);
+            //console.log(webdevAssessment.answerKey[arSelfAsmntLVL][1]);
+
+            //assessmentQuiz
+            document.getElementById("assessmentTortueAssess").innerHTML = webdevAssessment.questions[arSelfAsmntLVL][0];
+        }
+    </script>
+</body>
+</html>
